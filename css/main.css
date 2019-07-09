@@ -154,14 +154,6 @@ iframe {
   line-height: 1.5;
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ login ]*/
-
-.limiter {
-  width: 100%;
-  margin: 0 auto;
-}
-
 .container-login100 {
   width: 100%;  
   min-height: 100vh;
@@ -480,6 +472,91 @@ iframe {
 .alert-validate:hover:before {
   visibility: visible;
   opacity: 1;
+}
+
+.img-profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.header-line{
+  height: 5px!important;
+  background: #333;
+  background: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+  background: -o-linear-gradient(left, #21d4fd, #b721ff);
+  background: -moz-linear-gradient(left, #21d4fd, #b721ff);
+  background: linear-gradient(left, #21d4fd, #b721ff);
+}
+.header{
+  width: 100%;
+  height: 90px!important;
+  background-color: #fff;
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.container{
+  height: 90px!important;
+}
+
+.navbar-left{
+  float: left;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.navbar-right{
+  float: right;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.menu-link {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: transparent solid 5px;
+  cursor: pointer;
+}
+
+.menu-link:hover{
+  border: #333 solid 5px;
+}
+
+/*Scroll Bar -----------------*/
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #333; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 @media (max-width: 992px) {

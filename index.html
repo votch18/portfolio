@@ -3,37 +3,43 @@
 <head>
 	<title>Login V2</title>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
 	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">	
 	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
 </head>
 <body>
-	
-	<div class="limiter">
+
+	<div class=header-line></div>
+	<div class="header">
+		<div class="container">
+			<div class="navbar-left">
+				<a class="name">JM DE LEON</a>
+			</div>
+			<div class="navbar-right">
+				<a class="menu-link">WORK</a>
+				<a class="menu-link">PLAY</a>
+				<a class="menu-link">ABOUT</a>
+			</div>
+		</div>	
+
+	</div>
+
 		<div class="container-login100">
 			<div class="wrap-login100">
+				
 				<form class="login100-form validate-form">
+					<img class="img-profile" src="images/me.jpg"/>
 					<span class="login100-form-title p-b-26">
+							
 						Welcome
 					</span>
 					<span class="login100-form-title p-b-48">
@@ -74,10 +80,26 @@
 				</form>
 			</div>
 		</div>
-	</div>
-	
 
-	<div id="dropDownSelect1"></div>
+	
+<style>
+	canvas { 
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background-color: #f2f2f2;  
+		padding: 0; 
+		margin: 0; 
+		overflow: hidden;
+		z-index: -1;
+	}
+
+	.limiter{
+		background-color: transparent;
+	}
+	</style>
 	
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -96,5 +118,163 @@
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 
+	<script>
+		// One of my first <canvas> experiments, woop! :D 
+
+		var SCREEN_WIDTH = window.innerWidth;
+		var SCREEN_HEIGHT = window.innerHeight;
+
+		var RADIUS = 70;
+
+		var RADIUS_SCALE = 1;
+		var RADIUS_SCALE_MIN = 1;
+		var RADIUS_SCALE_MAX = 1.5;
+
+		var QUANTITY = 5;
+
+		var canvas;
+		var context;
+		var particles;
+
+		var mouseX = SCREEN_WIDTH * 0.5;
+		var mouseY = SCREEN_HEIGHT * 0.5;
+		var mouseIsDown = false;
+
+		function init() {
+
+		canvas = document.getElementById( 'world' );
+		
+		if (canvas && canvas.getContext) {
+				context = canvas.getContext('2d');
+				
+				// Register event listeners
+				window.addEventListener('mousemove', documentMouseMoveHandler, false);
+				window.addEventListener('mousedown', documentMouseDownHandler, false);
+				window.addEventListener('mouseup', documentMouseUpHandler, false);
+				document.addEventListener('touchstart', documentTouchStartHandler, false);
+				document.addEventListener('touchmove', documentTouchMoveHandler, false);
+				window.addEventListener('resize', windowResizeHandler, false);
+				
+				createParticles();
+				
+				windowResizeHandler();
+				
+				setInterval( loop, 1000 / 60 );
+			}
+		}
+
+		function createParticles() {
+			particles = [];
+			
+			for (var i = 0; i < QUANTITY; i++) {
+				var particle = {
+					size: 1,
+					position: { x: mouseX, y: mouseY },
+					offset: { x: 0, y: 0 },
+					shift: { x: mouseX, y: mouseY },
+					speed: .05,
+					targetSize: 1,
+					fillColor: '#' + (Math.random() * 0x404040 + 0xaaaaaa | 0).toString(16),
+					orbit: RADIUS*.5 + (i * 5)
+				};
+				
+				particles.push( particle );
+			}
+		}
+
+		function documentMouseMoveHandler(event) {
+			mouseX = event.clientX - (window.innerWidth - SCREEN_WIDTH) * .5;
+			mouseY = event.clientY - (window.innerHeight - SCREEN_HEIGHT) * .5;
+		}
+
+		function documentMouseDownHandler(event) {
+			mouseIsDown = true;
+		}
+
+		function documentMouseUpHandler(event) {
+			mouseIsDown = false;
+		}
+
+		function documentTouchStartHandler(event) {
+			if(event.touches.length == 1) {
+				event.preventDefault();
+
+				mouseX = event.touches[0].pageX - (window.innerWidth - SCREEN_WIDTH) * .5;;
+				mouseY = event.touches[0].pageY - (window.innerHeight - SCREEN_HEIGHT) * .5;
+			}
+		}
+
+		function documentTouchMoveHandler(event) {
+			if(event.touches.length == 1) {
+				event.preventDefault();
+
+				mouseX = event.touches[0].pageX - (window.innerWidth - SCREEN_WIDTH) * .5;;
+				mouseY = event.touches[0].pageY - (window.innerHeight - SCREEN_HEIGHT) * .5;
+			}
+		}
+
+		function windowResizeHandler() {
+			SCREEN_WIDTH = window.innerWidth;
+			SCREEN_HEIGHT = window.innerHeight;
+			
+			canvas.width = SCREEN_WIDTH;
+			canvas.height = SCREEN_HEIGHT;
+		}
+
+		function loop() {
+			
+			if( mouseIsDown ) {
+				RADIUS_SCALE += ( RADIUS_SCALE_MAX - RADIUS_SCALE ) * (0.02);
+			}
+			else {
+				RADIUS_SCALE -= ( RADIUS_SCALE - RADIUS_SCALE_MIN ) * (0.02);
+			}
+			
+			RADIUS_SCALE = Math.min( RADIUS_SCALE, RADIUS_SCALE_MAX );
+			
+			context.fillStyle = 'rgba(0,0,0,0.05)';
+				context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+			
+			for (i = 0, len = particles.length; i < len; i++) {
+				var particle = particles[i];
+				
+				var lp = { x: particle.position.x, y: particle.position.y };
+				
+				// Rotation
+				particle.offset.x += particle.speed + 0.02;
+				particle.offset.y += particle.speed + 0.02;
+				
+				// Follow mouse with some lag
+				particle.shift.x += ( mouseX - particle.shift.x) * (particle.speed);
+				particle.shift.y += ( mouseY - particle.shift.y) * (particle.speed);
+				
+				// Apply position
+				particle.position.x = particle.shift.x + Math.cos(i + particle.offset.x) * (particle.orbit*RADIUS_SCALE);
+				particle.position.y = particle.shift.y + Math.sin(i + particle.offset.y) * (particle.orbit*RADIUS_SCALE);
+				
+				// Limit to screen bounds
+				particle.position.x = Math.max( Math.min( particle.position.x, SCREEN_WIDTH ), 0 );
+				particle.position.y = Math.max( Math.min( particle.position.y, SCREEN_HEIGHT ), 0 );
+				
+				particle.size += ( particle.targetSize - particle.size ) * 0.05;
+				
+				if( Math.round( particle.size ) == Math.round( particle.targetSize ) ) {
+					particle.targetSize = 1 + Math.random() * 7;
+				}
+				
+				context.beginPath();
+				context.fillStyle = particle.fillColor;
+				context.strokeStyle = particle.fillColor;
+				context.lineWidth = particle.size;
+				context.moveTo(lp.x, lp.y);
+				context.lineTo(particle.position.x, particle.position.y);
+				context.stroke();
+				context.arc(particle.position.x, particle.position.y, particle.size/2, 0, Math.PI*2, true);
+				context.fill();
+			}
+		}
+
+		window.onload = init;
+	</script>
 </body>
 </html>
